@@ -12,7 +12,7 @@ Public domain.
 
 #include <immintrin.h>
 #include <stdio.h>
-#define ROUNDS 12
+#define ROUNDS 14
 #define U32C(v) (v##U)
 #define ROTL32(v, n) \
     (U32V((v) << (n)) | ((v) >> (32 - (n))))
@@ -98,7 +98,7 @@ static void xote(uint8_t output[128], const uint32_t input[16])
     for (i = 0; i < 16; ++i)
     {
         x[i] = PLUS(x[i], input[i]);
-        x[16 + i] = PLUS(x[16 + i], i != 4 ? input[i]: input[i] + 1);
+        x[16 + i] = PLUS(x[16 + i], i != 4 ? input[i] : input[i] + 1);
     }
     for (i = 0; i < 16; ++i)
     {

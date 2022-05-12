@@ -1,5 +1,4 @@
 /*
-u8.h version Date: 2020/05/07 10:05:55
 Murilo Coutinho
 Iago Passos
 Based on Romain Dolbeau's chacha
@@ -10,7 +9,7 @@ Public domain.
 
 #include <immintrin.h>
 #include <stdio.h>
-#define ROUNDS 12
+#define ROUNDS 14
 #define U32C(v) (v##U)
 #define ROTL32(v, n) \
     (U32V((v) << (n)) | ((v) >> (32 - (n))))

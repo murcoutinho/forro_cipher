@@ -1,7 +1,7 @@
 #include "xote.h"
 #include <stdio.h>
 #pragma GCC optimize("O3")
-#define rounds 6
+#define rounds 7
 #define ROTL(a, b) (((a) << (b)) | ((a) >> (32 - (b))))
 #define Q(a, b, c, d, e) (                   \
     d += e, c ^= d, b += c, b = ROTL(b, 10), \
@@ -44,8 +44,9 @@ inline void xote(uint8_t out[128], const uint32_t init[16])
     for (i = 0; i < 16; i++)
     {
         state_vector[i] = init[i] + state_vector[i];
-        state_vector2[i] = init[16 + i] + state_vector2[i];
+        state_vector2[i] = init[i] + state_vector2[i];
     }
+    state_vector2[4] = state_vector2[4] + 1;
     for (i = 0; i < 16; i++)
     {
         U32TO8_LITTLE(out + 4 * i, state_vector[i]);

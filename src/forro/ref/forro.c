@@ -1,7 +1,7 @@
 #include "forro.h"
 #include <stdio.h>
 #pragma GCC optimize("O3")
-#define rounds 6
+#define rounds 7
 #define ROTL(a, b) (((a) << (b)) | ((a) >> (32 - (b))))
 #define Q(a, b, c, d, e) (                   \
     d += e, c ^= d, b += c, b = ROTL(b, 10), \

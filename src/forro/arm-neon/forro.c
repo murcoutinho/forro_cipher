@@ -1,7 +1,7 @@
 #include "forro.h"
 #include <arm_neon.h>
 #include <stdio.h>
-#define ROUNDS 12
+#define ROUNDS 14
 
 #define U32C(v) (v##U)
 #define ROTL32(v, n) \
