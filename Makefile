@@ -2,48 +2,47 @@ CC=gcc
 CFLAGS=-march=native -mtune=native -O3 -fomit-frame-pointer -fwrapv
 
 FORRO_NEON_SRC=src/forro/arm-neon/forro.c
-FORRO_NEON_HEADERS=src/forro/arm-neon/forro.h src/forro/arm-neon/u4.h
-
 FORRO_REF_SRC=src/forro/ref/forro.c
-FORRO_REF_HEADERS=src/forro/ref/forro.h
-
 FORRO_X86_SRC=src/forro/x86-simd/forro.c
-FORRO_X86_HEADERS=src/forro/x86-simd/forro.h src/forro/x86-simd/u4.h src/forro/x86-simd/u8.h src/forro/x86-simd/u16.h src/forro/x86-simd/u16mask.h
-
 XOTE_REF_SRC=src/xote/ref/xote.c
-XOTE_REF_HEADERS=src/xote/ref/xote.h
-
-XOTE_X86_SRC=src/xote/x86-simd/forro.c
-XOTE_X86_HEADERS=src/xote/x86-simd/forro.h src/xote/x86-simd/u4.h src/xote/x86-simd/u8.h src/xote/x86-simd/u16.h src/xote/x86-simd/u16mask.h src/xote/x86-simd/u32.h
+XOTE_X86_SRC=src/xote/x86-simd/xote.c
 
 TEST_SRC=test/test.c
 
-.PHONY: all
-all: ref
+BUILD_DIR=build
 
-ref: xote_ref forro_ref
+.PHONY: all ref x86_simd neon
+all: $(BUILD_DIR)/test
 
-xote_ref:
-	$(CC) $(CFLAGS) $(XOTE_REF_HEADERS) -c $(XOTE_REF_SRC)
+$(BUILD_DIR)/test: ref
+	@$(CC) $(CFLAGS) -I. $(BUILD_DIR)/xote_ref.o $(BUILD_DIR)/forro_ref.o $(TEST_SRC) -o $@
 
-forro_ref:
-	$(CC) $(CFLAGS) $(FORRO_REF_HEADERS) -c $(FORRO_REF_SRC)
+ref: $(BUILD_DIR)/xote_ref.o $(BUILD_DIR)/forro_ref.o
 
-x86_simd: xote_x86_simd forro_x86_simd
+$(BUILD_DIR)/xote_ref.o:
+	@mkdir -p $(BUILD_DIR)
+	@$(CC) $(CFLAGS) -c $(XOTE_REF_SRC) -o $@
 
-xote_x86_simd:
-	$(CC) $(CFLAGS) $(XOTE_X86_HEADERS) -c $(XOTE_X86_SRC)
+$(BUILD_DIR)/forro_ref.o:
+	@mkdir -p $(BUILD_DIR)
+	@$(CC) $(CFLAGS) -c $(FORRO_REF_SRC) -o $@
 
-forro_x86_simd:
-	$(CC) $(CFLAGS) $(FORRO_X86_HEADERS) -c $(FORRO_X86_SRC)
+x86_simd: $(BUILD_DIR)/xote_x86_simd.o $(BUILD_DIR)/forro_x86_simd.o
 
-neon: xote_neon forro_neon
+$(BUILD_DIR)/xote_x86_simd.o:
+	@mkdir -p $(BUILD_DIR)
+	@$(CC) $(CFLAGS) -c $(XOTE_X86_SRC) -o $@
 
-xote_neon:
-	$(CC) $(CFLAGS) $(XOTE_NEON_HEADERS) -c $(XOTE_NEON_SRC)
+$(BUILD_DIR)/forro_x86_simd.o:
+	@mkdir -p $(BUILD_DIR)
+	@$(CC) $(CFLAGS) -c $(FORRO_X86_SRC) -o $@
 
-forro_neon:
-	$(CC) $(CFLAGS) $(FORRO_NEON_HEADERS) -c $(FORRO_NEON_SRC)
+neon: $(BUILD_DIR)/forro_neon.o
+
+$(BUILD_DIR)/forro_neon.o:
+	@mkdir -p $(BUILD_DIR)
+	@$(CC) $(CFLAGS) -c $(FORRO_NEON_SRC) -o $@
 
 .PHONY : clean
 clean:
+	rm -r $(BUILD_DIR)
