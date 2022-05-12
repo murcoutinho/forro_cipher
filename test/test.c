@@ -4,8 +4,8 @@
 #include <time.h>
 #include <sys/time.h>
 #include <stdio.h>
-#include "src/forro/x86-simd/forro.h"
-#include "src/xote/x86-simd/xote.h"
+#include "src/forro/ref/forro.h"
+#include "src/xote/ref/xote.h"
 
 void run_test_vectors(uint8_t key[32], uint8_t iv[8], uint32_t number_of_bytes)
 {
@@ -42,7 +42,7 @@ void run_test_vectors(uint8_t key[32], uint8_t iv[8], uint32_t number_of_bytes)
     printf("--------------------------------\t--------------------------------\n");
     printf("|             FORRO            |\t|             XOTE             |\n");
     printf("--------------------------------\t--------------------------------\n");
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 8; i++)
     {
         for (int k = 0; k < 16; k++)
             printf("%02x", output_forro[16 * i + k]);
@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
                 00000000
             */
     uint8_t key[32] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     /*
             NONCE:     0000000000000000
             */
