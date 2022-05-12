@@ -21,3 +21,11 @@ make ref
 ```
 
 Similarly, `x86_simd` and `test_x86_simd` are targets for the x86 with AVX2, and `neon` and `test_neon` for ARM Neon.
+
+The tests can be run with:
+
+```
+./build/test_ref
+```
+
+or it's respective.
