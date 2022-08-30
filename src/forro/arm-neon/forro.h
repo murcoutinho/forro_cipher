@@ -3,10 +3,10 @@
 #define forro_API
 /* ecrypt-sync.h */
 
-/* 
+/*
  * Header file for synchronous stream ciphers without authentication
  * mechanism.
- * 
+ *
  * *** Please only edit parts marked with "[edit]". ***
  */
 
@@ -19,10 +19,10 @@
 
 /* Cipher parameters */
 
-/* 
+/*
  * The name of your cipher.
  */
-#define forro_NAME "Forro12"
+#define forro_NAME "Forro14"
 #define forro_PROFILE "_____"
 
 /*
@@ -40,19 +40,19 @@
  * All sizes are in bits.
  */
 
-#define forro_MAXKEYSIZE 256             /* [edit] */
-#define forro_KEYSIZE(i) (128 + (i)*128) /* [edit] */
+#define forro_MAXKEYSIZE 256 /* [edit] */
+#define forro_KEYSIZE() 256  /* [edit] */
 
-#define forro_MAXIVSIZE 64            /* [edit] */
-#define forro_IVSIZE(i) (64 + (i)*64) /* [edit] */
+#define forro_MAXIVSIZE 64 /* [edit] */
+#define forro_IVSIZE() 64  /* [edit] */
 
 /* ------------------------------------------------------------------------- */
 
 /* Data structures */
 
-/* 
+/*
  * stream_ctx is the structure containing the representation of the
- * internal state of your cipher. 
+ * internal state of your cipher.
  */
 
 #ifndef __basic_def
@@ -62,15 +62,14 @@
 #define U8TO32_LITTLE(p) (((uint32_t *)(p))[0])
 
 static const uint8_t SIGMA[16] = "voltadaasabranca";
-static const uint8_t TAU[16] = "voltadaasabranca";
 typedef struct
 {
     uint32_t state[16]; /* could be compressed */
-                        /* 
-   * [edit]
-   *
-   * Put here all state variable needed during the encryption process.
-   */
+                        /*
+                         * [edit]
+                         *
+                         * Put here all state variable needed during the encryption process.
+                         */
 } stream_ctx __attribute__((aligned(16)));
 #endif
 
@@ -92,9 +91,7 @@ void forro_init();
  */
 void forro_keysetup(
     stream_ctx *ctx,
-    const uint8_t *key,
-    uint32_t keysize, /* Key size in bits. */
-    uint32_t ivsize); /* IV size in bits. */
+    const uint8_t *key);
 
 /*
  * IV setup. After having called forro_keysetup(), the user is
@@ -114,7 +111,7 @@ void forro_ivsetup(
  * (declared here) encrypts byte strings of arbitrary length, while
  * the forro_encrypt_blocks() function (defined later) only accepts
  * lengths which are multiples of forro_BLOCKLENGTH.
- * 
+ *
  * The user is allowed to make multiple calls to
  * forro_encrypt_blocks() to incrementally encrypt a long message,
  * but he is NOT allowed to make additional encryption calls once he
@@ -134,7 +131,7 @@ void forro_ivsetup(
  *
  * forro_ivsetup();
  * forro_encrypt_bytes();
- * 
+ *
  * The following sequence is not:
  *
  * forro_keysetup();
@@ -160,7 +157,7 @@ void forro_decrypt_bytes(
 
 /* Optional features */
 
-/* 
+/*
  * For testing purposes it can sometimes be useful to have a function
  * which immediately generates keystream without having to provide it
  * with a zero plaintext. If your cipher cannot provide this function
@@ -182,7 +179,7 @@ void forro_keystream_bytes(
 
 /* Optional optimizations */
 
-/* 
+/*
  * By default, the functions in this section are implemented using
  * calls to functions declared above. However, you might want to
  * implement them differently for performance reasons.
@@ -213,7 +210,7 @@ void forro_decrypt_packet(
 
 /*
  * Encryption/decryption of blocks.
- * 
+ *
  * By default, these functions are defined as macros. If you want to
  * provide a different implementation, please undef the
  * forro_USES_DEFAULT_BLOCK_MACROS flag and implement the functions
@@ -274,7 +271,7 @@ void forro_keystream_blocks(
  * significant difference and keep the number of variants
  * (forro_MAXVARIANT) as small as possible (definitely not more than
  * 10). Note also that all variants should have exactly the same
- * external interface (i.e., the same forro_BLOCKLENGTH, etc.). 
+ * external interface (i.e., the same forro_BLOCKLENGTH, etc.).
  */
 #define forro_MAXVARIANT 1 /* [edit] */
 
