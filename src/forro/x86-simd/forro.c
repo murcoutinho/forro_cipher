@@ -65,38 +65,26 @@ void forro_init(void)
 }
 
 static const char sigma[16] = "voltadaasabranca";
-static const char tau[16] = "voltadaasabranca";
 
-void forro_keysetup(stream_ctx *x, const uint8_t *k, uint32_t kbits, uint32_t ivbits)
+void forro_keysetup(stream_ctx *x, const uint8_t *k)
 {
-    const char *constants;
-
     x->state[0] = U8TO32_LITTLE(k + 0);
     x->state[1] = U8TO32_LITTLE(k + 4);
     x->state[2] = U8TO32_LITTLE(k + 8);
     x->state[3] = U8TO32_LITTLE(k + 12);
-    if (kbits == 256)
-    { /* recommended */
-        k += 16;
-        constants = sigma;
-    }
-    else
-    { /* kbits == 128 */
-        constants = tau;
-    }
-    x->state[8] = U8TO32_LITTLE(k + 0);
-    x->state[9] = U8TO32_LITTLE(k + 4);
-    x->state[10] = U8TO32_LITTLE(k + 8);
-    x->state[11] = U8TO32_LITTLE(k + 12);
-    x->state[6] = U8TO32_LITTLE(constants + 0);
-    x->state[7] = U8TO32_LITTLE(constants + 4);
-    x->state[14] = U8TO32_LITTLE(constants + 8);
-    x->state[15] = U8TO32_LITTLE(constants + 12);
+    x->state[8] = U8TO32_LITTLE(k + 16);
+    x->state[9] = U8TO32_LITTLE(k + 20);
+    x->state[10] = U8TO32_LITTLE(k + 24);
+    x->state[11] = U8TO32_LITTLE(k + 28);
+    x->state[6] = U8TO32_LITTLE(sigma + 0);
+    x->state[7] = U8TO32_LITTLE(sigma + 4);
+    x->state[14] = U8TO32_LITTLE(sigma + 8);
+    x->state[15] = U8TO32_LITTLE(sigma + 12);
 }
 
 void forro_ivsetup(stream_ctx *x, const uint8_t *iv)
 {
-    x->state[4] = 0; //0xFFFFFFFE;
+    x->state[4] = 0; // 0xFFFFFFFE;
     x->state[5] = 0;
     x->state[12] = U8TO32_LITTLE(iv + 0);
     x->state[13] = U8TO32_LITTLE(iv + 4);

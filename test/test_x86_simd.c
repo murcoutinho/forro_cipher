@@ -15,11 +15,11 @@ int run_test_vectors(uint8_t key[32], uint8_t iv[8], uint8_t expected[128], uint
     uint8_t *output_forro = (uint8_t *)malloc(number_of_bytes);
     uint8_t *output_xote = (uint8_t *)malloc(number_of_bytes);
 
-    forro_keysetup(&input, key, 256, 64);
+    forro_keysetup(&input, key);
     forro_ivsetup(&input, iv);
     forro_keystream_bytes(&input, output_forro, number_of_bytes);
 
-    xote_keysetup(&input, key, 256, 64);
+    xote_keysetup(&input, key);
     xote_ivsetup(&input, iv);
     xote_keystream_bytes(&input, output_xote, number_of_bytes);
 

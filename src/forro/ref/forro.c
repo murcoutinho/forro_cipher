@@ -46,40 +46,20 @@ void forro_init()
     return;
 }
 
-void forro_keysetup(stream_ctx *x, uint8_t *key, uint32_t keylen, uint32_t ivlen)
+void forro_keysetup(stream_ctx *x, uint8_t *key)
 {
-    if (keylen == 256)
-    {
-        // 256 bit key.
-        x->state[0] = U8TO32_LITTLE(key + 0);
-        x->state[1] = U8TO32_LITTLE(key + 4);
-        x->state[2] = U8TO32_LITTLE(key + 8);
-        x->state[3] = U8TO32_LITTLE(key + 12);
-        x->state[6] = U8TO32_LITTLE(SIGMA + 0);
-        x->state[7] = U8TO32_LITTLE(SIGMA + 4);
-        x->state[8] = U8TO32_LITTLE(key + 16);
-        x->state[9] = U8TO32_LITTLE(key + 20);
-        x->state[10] = U8TO32_LITTLE(key + 24);
-        x->state[11] = U8TO32_LITTLE(key + 28);
-        x->state[14] = U8TO32_LITTLE(SIGMA + 8);
-        x->state[15] = U8TO32_LITTLE(SIGMA + 12);
-    }
-    else
-    {
-        // 128 bit key.
-        x->state[0] = U8TO32_LITTLE(key + 0);
-        x->state[1] = U8TO32_LITTLE(key + 4);
-        x->state[2] = U8TO32_LITTLE(key + 8);
-        x->state[3] = U8TO32_LITTLE(key + 12);
-        x->state[6] = U8TO32_LITTLE(TAU + 0);
-        x->state[7] = U8TO32_LITTLE(TAU + 4);
-        x->state[8] = U8TO32_LITTLE(key + 0);
-        x->state[9] = U8TO32_LITTLE(key + 4);
-        x->state[10] = U8TO32_LITTLE(key + 8);
-        x->state[11] = U8TO32_LITTLE(key + 12);
-        x->state[14] = U8TO32_LITTLE(TAU + 8);
-        x->state[15] = U8TO32_LITTLE(TAU + 12);
-    }
+    x->state[0] = U8TO32_LITTLE(key + 0);
+    x->state[1] = U8TO32_LITTLE(key + 4);
+    x->state[2] = U8TO32_LITTLE(key + 8);
+    x->state[3] = U8TO32_LITTLE(key + 12);
+    x->state[6] = U8TO32_LITTLE(SIGMA + 0);
+    x->state[7] = U8TO32_LITTLE(SIGMA + 4);
+    x->state[8] = U8TO32_LITTLE(key + 16);
+    x->state[9] = U8TO32_LITTLE(key + 20);
+    x->state[10] = U8TO32_LITTLE(key + 24);
+    x->state[11] = U8TO32_LITTLE(key + 28);
+    x->state[14] = U8TO32_LITTLE(SIGMA + 8);
+    x->state[15] = U8TO32_LITTLE(SIGMA + 12);
 }
 
 void forro_ivsetup(stream_ctx *x, uint8_t *iv)
